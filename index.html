@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نتعلّم ونلعب</title>
+<style>
+:root{--ink:#243047;--purple:#7651e8;--bg:#f5f7ff;--card:#fff;--accent:#ffcf5a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#f5f7ff,#e9f3ff);color:var(--ink)}
+header{padding:24px 16px 18px;text-align:center;background:linear-gradient(120deg,#7651e8,#4c8fe8);color:white}
+h1{margin:0 0 8px;font-size:clamp(25px,5vw,38px)}
+header p{margin:0;font-size:16px}
+main{max-width:1050px;margin:auto;padding:20px 16px 42px}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:4px 0 20px}
+button{font:inherit;cursor:pointer;border:0}
+.tab{padding:11px 22px;border-radius:999px;background:#fff;color:var(--purple);font-weight:bold;box-shadow:0 3px 12px #25345a18}
+.tab.active{background:var(--purple);color:#fff}
+.tip{text-align:center;margin:0 0 18px;color:#58647a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
+.tile{min-height:158px;background:var(--card);border-radius:20px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;box-shadow:0 5px 18px #25345a12;border:2px solid transparent;transition:.15s}
+.tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--purple);outline:none}
+.picture{font-size:56px;line-height:1.2}
+.big{font-size:34px;font-weight:bold;color:var(--purple)}
+.name{font-weight:bold;font-size:18px}
+.hint{font-size:13px;color:#7b8496}
+footer{text-align:center;color:#65718a;font-size:13px;padding:4px 12px 24px}
+#status{min-height:26px;text-align:center;color:#4f45a5;font-weight:bold;margin:14px}
+@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:145px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌈 نتعلّم ونلعب</h1>
+  <p>اضغط على الصورة واسمع اسم الحرف أو الشكل</p>
+</header>
+<main>
+  <div class="tabs" role="tablist" aria-label="الأقسام">
+    <button class="tab active" id="lettersTab" onclick="showSection('letters')">🔤 الحروف</button>
+    <button class="tab" id="shapesTab" onclick="showSection('shapes')">🔷 الأشكال</button>
+  </div>
+  <p class="tip" id="tip">اضغط على أي بطاقة حتى تسمع اسم الحرف والكلمة</p>
+  <div class="grid" id="grid"></div>
+  <div id="status" aria-live="polite">جاهزين؟ يلا نبدأ! ⭐</div>
+</main>
+<footer>يمكن تشغيل هذا النشاط على الكمبيوتر من المتصفح، ولا يحتاج إلى إنترنت بعد فتح الملف.</footer>
+<script>
+const letters = [
+ ['ا','ألف','🐰','ألف أرنب'],['ب','باء','🦆','باء بطة'],['ت','تاء','🍎','تاء تفاحة'],
+ ['ث','ثاء','🦊','ثاء ثعلب'],['ج','جيم','🐪','جيم جمل'],['ح','حاء','🐎','حاء حصان'],
+ ['خ','خاء','🐑','خاء خروف'],['د','دال','🐻','دال دب'],['ذ','ذال','🐺','ذال ذئب'],
+ ['ر','راء','🌸','راء وردة'],['ز','زاي','🦒','زاي زرافة'],['س','سين','🐟','سين سمكة'],
+ ['ش','شين','☀️','شين شمس'],['ص','صاد','📦','صاد صندوق'],['ض','ضاد','🐸','ضاد ضفدع'],
+ ['ط','طاء','✈️','طاء طائرة'],['ظ','ظاء','🦌','ظاء ظبي'],['ع','عين','🍇','عين عنب'],
+ ['غ','غين','☁️','غين غيمة'],['ف','فاء','🐘','فاء فيل'],['ق','قاف','🌙','قاف قمر'],
+ ['ك','كاف','🐕','كاف كلب'],['ل','لام','🍋','لام ليمون'],['م','ميم','🍌','ميم موز'],
+ ['ن','نون','🐝','نون نحلة'],['هـ','هاء','🎁','هاء هدية'],['و','واو','🌹','واو وردة'],['ي','ياء','✋','ياء يد']
+];
+const shapes = [
+ ['⚪','دائرة','هذه دائرة'],['🟥','مربع','هذا مربع'],['🔺','مثلث','هذا مثلث'],
+ ['▭','مستطيل','هذا مستطيل'],['⭐','نجمة','هذه نجمة'],['❤️','قلب','هذا قلب'],
+ ['⬭','بيضاوي','هذا شكل بيضاوي'],['💎','مُعين','هذا مُعين']
+];
+let section='letters';
+function speak(text){
+ document.getElementById('status').textContent='🔊 '+text;
+ if(!('speechSynthesis' in window)){document.getElementById('status').textContent=text;return}
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='ar-SA'; u.rate=.82; u.pitch=1.05;
+ const voices=speechSynthesis.getVoices();
+ const arabic=voices.find(v=>v.lang.toLowerCase().startsWith('ar'));
+ if(arabic)u.voice=arabic;
+ speechSynthesis.speak(u);
+}
+function showSection(which){
+ section=which;
+ document.getElementById('lettersTab').classList.toggle('active',which==='letters');
+ document.getElementById('shapesTab').classList.toggle('active',which==='shapes');
+ document.getElementById('tip').textContent=which==='letters'?'اضغط على الحرف حتى تسمع اسمه والكلمة التي تبدأ به':'اضغط على الشكل حتى تسمع اسمه';
+ render();
+}
+function render(){
+ const data=section==='letters'?letters:shapes;
+ document.getElementById('grid').innerHTML=data.map((item,i)=>{
+  const [symbol,name,pic,phrase]=item;
+  const spoken=section==='letters'?phrase:phrase;
+  return `<button class="tile" type="button" aria-label="${spoken}" onclick="speak('${spoken}')">
+    <span class="picture">${section==='letters'?pic:symbol}</span>
+    <span class="${section==='letters'?'big':''}">${section==='letters'?symbol:name}</span>
+    <span class="name">${section==='letters'?name:phrase}</span>
+    <span class="hint">اضغط للاستماع 🔊</span>
+  </button>`;
+ }).join('');
+}
+render();
+</script>
+</body>
+</html>
