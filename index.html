@@ -1,99 +1,123 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>نتعلّم ونلعب</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ركن التعلّم للأطفال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#243047;--purple:#7651e8;--bg:#f5f7ff;--card:#fff;--accent:#ffcf5a}
-*{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(135deg,#f5f7ff,#e9f3ff);color:var(--ink)}
-header{padding:24px 16px 18px;text-align:center;background:linear-gradient(120deg,#7651e8,#4c8fe8);color:white}
-h1{margin:0 0 8px;font-size:clamp(25px,5vw,38px)}
-header p{margin:0;font-size:16px}
-main{max-width:1050px;margin:auto;padding:20px 16px 42px}
-.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:4px 0 20px}
-button{font:inherit;cursor:pointer;border:0}
-.tab{padding:11px 22px;border-radius:999px;background:#fff;color:var(--purple);font-weight:bold;box-shadow:0 3px 12px #25345a18}
-.tab.active{background:var(--purple);color:#fff}
-.tip{text-align:center;margin:0 0 18px;color:#58647a}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px}
-.tile{min-height:158px;background:var(--card);border-radius:20px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;box-shadow:0 5px 18px #25345a12;border:2px solid transparent;transition:.15s}
-.tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--purple);outline:none}
-.picture{font-size:56px;line-height:1.2}
-.big{font-size:34px;font-weight:bold;color:var(--purple)}
-.name{font-weight:bold;font-size:18px}
-.hint{font-size:13px;color:#7b8496}
-footer{text-align:center;color:#65718a;font-size:13px;padding:4px 12px 24px}
-#status{min-height:26px;text-align:center;color:#4f45a5;font-weight:bold;margin:14px}
-@media(max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:145px}}
+:root{--bg:#fff7e8;--ink:#2b2d42;--card:#ffffff;--muted:#6b6f85;--line:rgba(0,0,0,.08);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1c2b;--ink:#f4f1ea;--card:#262a3d;--muted:#aab0c6;--line:rgba(255,255,255,.1);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1a1c2b;--ink:#f4f1ea;--card:#262a3d;--muted:#aab0c6;--line:rgba(255,255,255,.1);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Baloo Bhaijaan 2','Segoe UI',Tahoma,'Noto Naskh Arabic',sans-serif}
+header{text-align:center;padding:28px 16px 8px}
+h1{margin:0;font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:.5px}
+h1 span{color:#ef476f}h1 b{color:#118ab2}
+header p{margin:6px 0 0;color:var(--muted);font-size:18px}
+.tabs{display:flex;gap:10px;justify-content:center;padding:16px;flex-wrap:wrap}
+.tab{font:inherit;font-size:20px;font-weight:700;border:3px solid var(--line);background:var(--card);color:var(--ink);padding:10px 26px;border-radius:999px;cursor:pointer;transition:transform .15s}
+.tab:active{transform:scale(.95)}
+.test{font:inherit;font-size:16px;font-weight:700;border:3px solid var(--line);background:var(--card);color:var(--ink);padding:6px 18px;margin-top:12px;border-radius:999px;cursor:pointer}
+.tab[aria-selected="true"]{background:#ff6b35;border-color:#ff6b35;color:#fff;box-shadow:0 6px 16px rgba(255,107,53,.35)}
+#note{max-width:560px;margin:0 auto 8px;padding:10px 16px;background:#ffe8a3;color:#5a4300;border-radius:14px;text-align:center;font-size:15px}
+main{max-width:980px;margin:0 auto;padding:8px 16px 40px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(145px,1fr))}
+.card{font:inherit;color:var(--ink);background:var(--card);border:4px solid var(--c);border-radius:26px;padding:14px 8px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:170px;box-shadow:0 7px 0 var(--c);transition:transform .12s,box-shadow .12s}
+.card:active{transform:translateY(5px);box-shadow:0 2px 0 var(--c)}
+.card.pop{animation:pop .6s ease}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.14) rotate(-4deg)}70%{transform:scale(1.06) rotate(3deg)}100%{transform:scale(1)}}
+.card svg{width:92px;height:92px;fill:var(--c);filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}
+.N{font-size:26px;font-weight:800;margin-top:6px}
+.L{font-size:62px;font-weight:800;line-height:1.1;color:var(--c)}
+.E{font-size:52px;line-height:1.15;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.W{font-size:24px;font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 28px}
+@media (prefers-reduced-motion:reduce){.card.pop{animation:none}}
 </style>
 </head>
 <body>
 <header>
-  <h1>🌈 نتعلّم ونلعب</h1>
-  <p>اضغط على الصورة واسمع اسم الحرف أو الشكل</p>
+  <h1>🌈 ركن <span>التعلّم</span> <b>للأطفال</b></h1>
+  <p>اضغط على أي بطاقة وإسمع الصوت 🔊</p>
+  <button class="test" id="test">🔊 جرّب الصوت</button>
 </header>
-<main>
-  <div class="tabs" role="tablist" aria-label="الأقسام">
-    <button class="tab active" id="lettersTab" onclick="showSection('letters')">🔤 الحروف</button>
-    <button class="tab" id="shapesTab" onclick="showSection('shapes')">🔷 الأشكال</button>
-  </div>
-  <p class="tip" id="tip">اضغط على أي بطاقة حتى تسمع اسم الحرف والكلمة</p>
-  <div class="grid" id="grid"></div>
-  <div id="status" aria-live="polite">جاهزين؟ يلا نبدأ! ⭐</div>
-</main>
-<footer>يمكن تشغيل هذا النشاط على الكمبيوتر من المتصفح، ولا يحتاج إلى إنترنت بعد فتح الملف.</footer>
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" data-t="shapes" aria-selected="true">🔷 الأشكال</button>
+  <button class="tab" role="tab" data-t="letters" aria-selected="false">🔤 الحروف</button>
+</div>
+<div id="note" hidden>ما لقينا صوت عربي على هذا الجهاز. جرّب متصفح Chrome، أو فعّل الصوت العربي من إعدادات الجهاز، وتأكد من رفع الصوت.</div>
+<main><div class="grid" id="grid"></div></main>
+<footer>تعلّم بالصوت والصورة • مناسب للأطفال من 3 إلى 7 سنوات</footer>
+
 <script>
-const letters = [
- ['ا','ألف','🐰','ألف أرنب'],['ب','باء','🦆','باء بطة'],['ت','تاء','🍎','تاء تفاحة'],
- ['ث','ثاء','🦊','ثاء ثعلب'],['ج','جيم','🐪','جيم جمل'],['ح','حاء','🐎','حاء حصان'],
- ['خ','خاء','🐑','خاء خروف'],['د','دال','🐻','دال دب'],['ذ','ذال','🐺','ذال ذئب'],
- ['ر','راء','🌸','راء وردة'],['ز','زاي','🦒','زاي زرافة'],['س','سين','🐟','سين سمكة'],
- ['ش','شين','☀️','شين شمس'],['ص','صاد','📦','صاد صندوق'],['ض','ضاد','🐸','ضاد ضفدع'],
- ['ط','طاء','✈️','طاء طائرة'],['ظ','ظاء','🦌','ظاء ظبي'],['ع','عين','🍇','عين عنب'],
- ['غ','غين','☁️','غين غيمة'],['ف','فاء','🐘','فاء فيل'],['ق','قاف','🌙','قاف قمر'],
- ['ك','كاف','🐕','كاف كلب'],['ل','لام','🍋','لام ليمون'],['م','ميم','🍌','ميم موز'],
- ['ن','نون','🐝','نون نحلة'],['هـ','هاء','🎁','هاء هدية'],['و','واو','🌹','واو وردة'],['ي','ياء','✋','ياء يد']
+const P=['#ef476f','#f78c1f','#e0a100','#2fb36d','#118ab2','#7b5cd6'];
+const shapes=[
+['دائرة','<circle cx="50" cy="50" r="42"/>'],
+['مربع','<rect x="10" y="10" width="80" height="80" rx="5"/>'],
+['مثلث','<polygon points="50,8 94,88 6,88"/>'],
+['مستطيل','<rect x="4" y="24" width="92" height="52" rx="5"/>'],
+['نجمة','<polygon points="50,5 62,37 96,38 69,59 79,93 50,73 21,93 31,59 4,38 38,37"/>'],
+['قلب','<path d="M50 90C8 60 4 30 27 19c13-5 23 4 23 13 0-9 10-18 23-13 23 11 19 41-23 71z"/>'],
+['معيّن','<polygon points="50,4 93,50 50,96 7,50"/>'],
+['بيضاوي','<ellipse cx="50" cy="50" rx="45" ry="29"/>']
 ];
-const shapes = [
- ['⚪','دائرة','هذه دائرة'],['🟥','مربع','هذا مربع'],['🔺','مثلث','هذا مثلث'],
- ['▭','مستطيل','هذا مستطيل'],['⭐','نجمة','هذه نجمة'],['❤️','قلب','هذا قلب'],
- ['⬭','بيضاوي','هذا شكل بيضاوي'],['💎','مُعين','هذا مُعين']
+const letters=[
+['أ','ألف','أرنب','🐰'],['ب','باء','بطة','🦆'],['ت','تاء','تفاحة','🍎'],['ث','ثاء','ثعلب','🦊'],
+['ج','جيم','جمل','🐪'],['ح','حاء','حصان','🐴'],['خ','خاء','خروف','🐑'],['د','دال','دجاجة','🐔'],
+['ذ','ذال','ذرة','🌽'],['ر','راء','ريشة','🪶'],['ز','زاي','زرافة','🦒'],['س','سين','سمكة','🐟'],
+['ش','شين','شمس','☀️'],['ص','صاد','صاروخ','🚀'],['ض','ضاد','ضفدع','🐸'],['ط','طاء','طائرة','✈️'],
+['ظ','ظاء','ظرف','✉️'],['ع','عين','عنب','🍇'],['غ','غين','غيمة','☁️'],['ف','فاء','فيل','🐘'],
+['ق','قاف','قمر','🌙'],['ك','كاف','كتاب','📖'],['ل','لام','ليمون','🍋'],['م','ميم','موز','🍌'],
+['ن','نون','نحلة','🐝'],['ه','هاء','هدية','🎁'],['و','واو','وردة','🌹'],['ي','ياء','يد','✋']
 ];
-let section='letters';
-function speak(text){
- document.getElementById('status').textContent='🔊 '+text;
- if(!('speechSynthesis' in window)){document.getElementById('status').textContent=text;return}
- speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(text);
- u.lang='ar-SA'; u.rate=.82; u.pitch=1.05;
- const voices=speechSynthesis.getVoices();
- const arabic=voices.find(v=>v.lang.toLowerCase().startsWith('ar'));
- if(arabic)u.voice=arabic;
- speechSynthesis.speak(u);
+
+const grid=document.getElementById('grid'),note=document.getElementById('note');
+const hasTTS='speechSynthesis' in window;
+let voice=null,cur=null;
+function setNote(m){note.textContent=m;note.hidden=!m}
+function pickVoice(){
+  if(!hasTTS){setNote('هذا المتصفح لا يدعم الصوت. جرّب Chrome أو Safari.');return}
+  const v=speechSynthesis.getVoices();
+  voice=v.find(x=>x.lang.toLowerCase().replace('_','-').startsWith('ar'))||null;
+  if(v.length&&!voice)setNote('ما لقينا صوت عربي على هذا الجهاز. فعّل صوتاً عربياً من إعدادات الجهاز (تحويل النص إلى كلام)، أو جرّب Chrome على الجوال.');
+  else setNote('');
 }
-function showSection(which){
- section=which;
- document.getElementById('lettersTab').classList.toggle('active',which==='letters');
- document.getElementById('shapesTab').classList.toggle('active',which==='shapes');
- document.getElementById('tip').textContent=which==='letters'?'اضغط على الحرف حتى تسمع اسمه والكلمة التي تبدأ به':'اضغط على الشكل حتى تسمع اسمه';
- render();
+if(hasTTS){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}else pickVoice();
+
+function say(text){
+  if(!hasTTS)return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang=voice?voice.lang:'ar-SA';
+    if(voice)u.voice=voice;
+    u.rate=.8;u.pitch=1.1;u.volume=1;
+    u.onerror=e=>{if(e.error&&e.error!=='interrupted'&&e.error!=='canceled')setNote('تعذّر تشغيل الصوت ('+e.error+'). تأكد من رفع الصوت وإلغاء وضع الصامت.')};
+    cur=u;
+    setTimeout(()=>{speechSynthesis.resume();speechSynthesis.speak(u)},80);
+  }catch(err){setNote('تعذّر تشغيل الصوت على هذا المتصفح.')}
 }
-function render(){
- const data=section==='letters'?letters:shapes;
- document.getElementById('grid').innerHTML=data.map((item,i)=>{
-  const [symbol,name,pic,phrase]=item;
-  const spoken=section==='letters'?phrase:phrase;
-  return `<button class="tile" type="button" aria-label="${spoken}" onclick="speak('${spoken}')">
-    <span class="picture">${section==='letters'?pic:symbol}</span>
-    <span class="${section==='letters'?'big':''}">${section==='letters'?symbol:name}</span>
-    <span class="name">${section==='letters'?name:phrase}</span>
-    <span class="hint">اضغط للاستماع 🔊</span>
-  </button>`;
- }).join('');
+
+function render(t){
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));
+  grid.innerHTML=t==='shapes'
+    ?shapes.map(([n,s],i)=>`<button class="card" style="--c:${P[i%6]}" data-say="${n}" aria-label="${n}"><svg viewBox="0 0 100 100" aria-hidden="true">${s}</svg><span class="N">${n}</span></button>`).join('')
+    :letters.map(([l,n,w,e],i)=>`<button class="card" style="--c:${P[i%6]}" data-say="${n}، ${w}" aria-label="${n} ${w}"><span class="L">${l}</span><span class="E" aria-hidden="true">${e}</span><span class="W">${w}</span></button>`).join('');
 }
-render();
+
+grid.addEventListener('click',e=>{
+  const c=e.target.closest('.card');if(!c)return;
+  say(c.dataset.say);
+  c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');
+});
+document.querySelector('.tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab');if(b){render(b.dataset.t);if(hasTTS)speechSynthesis.cancel()}
+});
+document.getElementById('test').onclick=()=>say('مرحباً، ألف، أرنب');
+render('shapes');
 </script>
 </body>
 </html>
